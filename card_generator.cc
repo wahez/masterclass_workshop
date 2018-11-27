@@ -1,5 +1,6 @@
 #include "card_generator.h"
-#include "cards.h"
+#include "card.h"
+#include <random>
 
 namespace workshop {
 
@@ -29,26 +30,24 @@ std::string type_to_string(int type)
 	throw std::runtime_error("Unkown card type");
 }
 
-std::unique_ptr<CardBase> CardGenerator::get_random_card()
+Card CardGenerator::get_random_card()
 {
-	std::uniform_int_distribution<int> color_dist{1, 4};
-	std::uniform_int_distribution<int> type_dist{1, 13};
-
-	const auto type = type_to_string(type_dist(engine));
-	const int color = color_dist(engine);
-
-	switch (color)
-	{
-	case 1:
-		return std::make_unique<HeartsCard>(type);
-	case 2:
-		return std::make_unique<ClubsCard>(type);
-	case 3:
-		return std::make_unique<DiamondsCard>(type);
-	case 4:
-		return std::make_unique<SpadesCard>(type);
-	}
-	throw std::runtime_error("Unknown card color");
+    static std::uniform_int_distribution<int> color_dist{1, 4};
+    static std::uniform_int_distribution<int> type_dist{2, 13};
+    const auto type = type_to_string(type_dist(engine));
+    int color = color_dist(engine);
+    switch (color)
+    {
+    case 1:
+        return Card{"hearts", type};
+    case 2:
+        return Card{"clubs", type};
+    case 3:
+        return Card{"diamonds", type};
+    case 4:
+        return Card{"spades", type};
+    }
+    throw std::runtime_error("Unknown card color");
 }
 
 }

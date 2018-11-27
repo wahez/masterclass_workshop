@@ -10,8 +10,6 @@ endif()
 set(sources
 	card.h
 	card.cc
-	cards.h
-	cards.cc
 	card_collection.h
 	card_generator.h
 	card_generator.cc
@@ -26,5 +24,6 @@ option(BENCHMARK_ENABLE_TESTING "Enable testing of the benchmark library." OFF)
 add_subdirectory(benchmark)
 target_link_libraries(workshop
 	benchmark
-	${CMAKE_THREAD_LIBS_INIT})
+	${CMAKE_THREAD_LIBS_INIT}
+	papi)
 
