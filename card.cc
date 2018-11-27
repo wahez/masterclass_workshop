@@ -2,8 +2,4 @@
 
 namespace workshop {
 
-CardBase::~CardBase()
-{
-}
-
 }

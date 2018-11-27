@@ -5,7 +5,7 @@
 
 namespace workshop {
 
-enum class Color
+enum class Color : std::uint8_t
 {
 	spades,
 	hearts,
@@ -13,7 +13,7 @@ enum class Color
 	diamonds
 };
 
-enum class Type
+enum class Type : std::uint8_t
 {
 	ace = 1,
 	two = 2,
@@ -30,26 +30,19 @@ enum class Type
 	king
 };
 
-class CardBase
+class Card
 {
 public:
-	virtual ~CardBase();
+	Card(Color c, Type t) : type_(t), color_(c) {}
 
-	virtual Color color() const = 0;
-	virtual Type type() const = 0;
-};
-
-class Card : public CardBase
-{
-public:
-	Card(Color color, Type type) : type_(type), color_(color) {}
-
-	Color color() const override { return color_; }
-	Type type() const override { return type_; }
+	Color color() const { return color_; }
+	Type type() const { return type_; }
 
 	friend bool operator<(const Card& lhs, const Card& rhs)
 	{
-		return std::tie(lhs.type_, lhs.color_) < std::tie(rhs.type_, rhs.color_);
+		return
+		        ((static_cast<std::uint8_t>(lhs.color()) << 8) | static_cast<std::uint8_t>(lhs.type())) <
+		        ((static_cast<std::uint8_t>(rhs.color()) << 8) | static_cast<std::uint8_t>(rhs.type()));
 	}
 
 private:
