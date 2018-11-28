@@ -1,6 +1,6 @@
 #include "cards.h"
 #include <memory>
-#include <list>
+#include <vector>
 #include <algorithm>
 
 namespace workshop {
@@ -10,10 +10,11 @@ class CardCollection
 public:
 	auto find_place_to_insert(const CardBase& card)
 	{
-		return std::find_if(
+		return std::lower_bound(
 			cards.begin(),
 			cards.end(),
-			[&](const auto& other) { return card < *other; });
+			card,
+			[](const auto& lhs, const auto& rhs) { return *lhs < rhs; });
 	}
 
 	void insert(std::unique_ptr<CardBase> card)
@@ -25,7 +26,7 @@ public:
 	std::size_t size() const { return cards.size(); }
 
 private:
-	std::list<std::unique_ptr<CardBase>> cards;
+	std::vector<std::unique_ptr<CardBase>> cards;
 };
 
 }
