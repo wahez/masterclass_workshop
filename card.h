@@ -7,9 +7,9 @@ namespace workshop {
 class CardBase
 {
 public:
-	virtual ~CardBase();
-	virtual std::string color() const = 0;
-	virtual std::string type() const = 0;
+    virtual ~CardBase();
+    virtual const std::string& color() const = 0;
+    virtual const std::string& type() const = 0;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const CardBase& card)
